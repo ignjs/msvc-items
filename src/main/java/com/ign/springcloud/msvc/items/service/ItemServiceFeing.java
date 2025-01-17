@@ -34,4 +34,19 @@ public class ItemServiceFeing implements ItemService {
 			return Optional.empty();
 		}
 	}
+
+	@Override
+	public Product save(Product product) {
+		return client.save(product);
+	}
+
+	@Override
+	public Product update(Product product, Long id) {
+		return client.update(product, id);
+	}
+
+	@Override
+	public void delete(Long id) {
+		client.delete(id);
+	}
 }

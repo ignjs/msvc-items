@@ -13,8 +13,12 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +39,7 @@ public class ItemController {
 
 	// @Qualifier is used to specify which implementation of the ItemService
 	// interface
-	public ItemController(@Qualifier("itemServiceWebClient") ItemService service,
+	public ItemController(@Qualifier("itemServiceFeing") ItemService service,
 			CircuitBreakerFactory cBreakerFactory) {
 		this.cBreakerFactory = cBreakerFactory;
 		this.service = service;
@@ -160,5 +164,45 @@ public class ItemController {
 		product.setName("Amazon Fire TV Stick");
 		product.setPrice(39.99);
 		return CompletableFuture.completedFuture(new Item(product, 5));
+	}
+
+	/**
+	 * Handles the HTTP POST request to save a new product.
+	 *
+	 * @param product the product to be saved, provided in the request body
+	 * @return a ResponseEntity containing the saved product and an HTTP status of
+	 *         CREATED
+	 */
+	@PostMapping
+	public ResponseEntity<?> save(@RequestBody Product product) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(product));
+	}
+
+	/**
+	 * Updates an existing product with the given ID.
+	 *
+	 * @param product the product details to update
+	 * @param id      the ID of the product to update
+	 * @return a ResponseEntity containing the updated product and HTTP status code
+	 */
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(@RequestBody Product product, @PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.update(product, id));
+	}
+
+	/**
+	 * Deletes an item with the specified ID.
+	 *
+	 * @param id the ID of the item to be deleted
+	 * @return a ResponseEntity with no content status
+	 */
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		Optional<Item> itemOptional = service.findAById(id);
+		if (itemOptional.isPresent()) {
+			service.delete(id);
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 }

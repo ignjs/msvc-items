@@ -26,6 +26,15 @@ public class ItemServiceWebClient implements ItemService {
 		this.webClientBuilder = webClientBuilder;
 	}
 
+	/**
+	 * Retrieves a list of all items by making a GET request to an external service.
+	 * The response is expected to be in JSON format and contains a list of
+	 * products.
+	 * Each product is then mapped to an Item object with a random quantity between
+	 * 1 and 10.
+	 *
+	 * @return a list of Item objects retrieved from the external service.
+	 */
 	@Override
 	public List<Item> findAll() {
 		return this.webClientBuilder.build()
@@ -38,6 +47,17 @@ public class ItemServiceWebClient implements ItemService {
 				.block();
 	}
 
+	/**
+	 * Finds an Item by its ID using a WebClient.
+	 *
+	 * This method sends a GET request to the specified URI with the given ID,
+	 * retrieves the response as a Product, and maps it to an Item with a random
+	 * quantity.
+	 *
+	 * @param id the ID of the Item to find
+	 * @return an Optional containing the found Item, or an empty Optional if not
+	 *         found
+	 */
 	@Override
 	public Optional<Item> findAById(Long id) {
 		/* try { */
@@ -52,6 +72,58 @@ public class ItemServiceWebClient implements ItemService {
 		 * }
 		 */
 
+	}
+
+	/**
+	 * Saves the given product using a WebClient.
+	 *
+	 * This method sends a POST request with the product data in JSON format to the
+	 * configured endpoint.
+	 * It expects a response containing the saved product data in JSON format, which
+	 * is then converted
+	 * back to a Product object.
+	 *
+	 * @param product the product to be saved
+	 * @return the saved product
+	 */
+	@Override
+	public Product save(Product product) {
+		return webClientBuilder.build().post()
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(product)
+				.retrieve()
+				.bodyToMono(Product.class)
+				.block();
+	}
+
+	/**
+	 * Updates an existing product with the given ID using a WebClient.
+	 *
+	 * @param product the product to update
+	 * @param id      the ID of the product to update
+	 * @return the updated product
+	 */
+	@Override
+	public Product update(Product product, Long id) {
+		return webClientBuilder.build().put()
+				.uri("/{id}", id)
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(product)
+				.retrieve()
+				.bodyToMono(Product.class)
+				.block();
+	}
+
+	/**
+	 * Deletes an item with the specified ID.
+	 *
+	 * @param id the ID of the item to be deleted
+	 */
+	@Override
+	public void delete(Long id) {
+		webClientBuilder.build().delete().uri("/{id}", id).retrieve().bodyToMono(Void.class).block();
 	}
 
 }
