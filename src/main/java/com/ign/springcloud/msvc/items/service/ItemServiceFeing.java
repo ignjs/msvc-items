@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ign.springcloud.msvc.items.client.ProductFeignClient;
 import com.ign.springcloud.msvc.items.model.Item;
-import com.ign.springcloud.msvc.items.model.Product;
+import com.ign.libs.msvc.commons.entity.Product;
 
 import feign.FeignException;
 

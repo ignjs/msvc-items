@@ -13,7 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.ign.springcloud.msvc.items.model.Item;
-import com.ign.springcloud.msvc.items.model.Product;
+import com.ign.libs.msvc.commons.entity.Product;
 
 @Service
 @Primary // This annotation is used to indicate that if there are multiple beans of the

@@ -1,5 +1,7 @@
 package com.ign.springcloud.msvc.items.model;
 
+import com.ign.libs.msvc.commons.entity.Product;
+
 public class Item {
 	private Product product;
 	private int quantity;

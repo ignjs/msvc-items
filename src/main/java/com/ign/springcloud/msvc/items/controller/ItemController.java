@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ign.springcloud.msvc.items.model.Item;
-import com.ign.springcloud.msvc.items.model.Product;
+import com.ign.libs.msvc.commons.entity.Product;
 import com.ign.springcloud.msvc.items.service.ItemService;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;

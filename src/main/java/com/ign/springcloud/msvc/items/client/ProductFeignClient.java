@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.ign.springcloud.msvc.items.model.Product;
+import com.ign.libs.msvc.commons.entity.Product;
 
 @FeignClient(name = "msvc-products")
 public interface ProductFeignClient {
