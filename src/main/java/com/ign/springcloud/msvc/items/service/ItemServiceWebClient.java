@@ -1,8 +1,6 @@
 package com.ign.springcloud.msvc.items.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -10,8 +8,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-
 import com.ign.springcloud.msvc.items.model.Item;
 import com.ign.libs.msvc.commons.entity.Product;
 
