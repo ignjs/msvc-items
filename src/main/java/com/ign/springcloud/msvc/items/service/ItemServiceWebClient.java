@@ -12,14 +12,14 @@ import com.ign.springcloud.msvc.items.model.Item;
 import com.ign.libs.msvc.commons.entity.Product;
 
 @Service
-@Primary // This annotation is used to indicate that if there are multiple beans of the
+//@Primary // This annotation is used to indicate that if there are multiple beans of the
 					// same type, the one with this annotation should be used.
 public class ItemServiceWebClient implements ItemService {
 
-	private final WebClient.Builder webClientBuilder;
+	private final WebClient webClient;
 
-	public ItemServiceWebClient(WebClient.Builder webClientBuilder) {
-		this.webClientBuilder = webClientBuilder;
+	public ItemServiceWebClient(WebClient webClient) {
+		this.webClient = webClient;
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class ItemServiceWebClient implements ItemService {
 	 */
 	@Override
 	public List<Item> findAll() {
-		return this.webClientBuilder.build()
+		return this.webClient
 				.get()
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
@@ -57,7 +57,7 @@ public class ItemServiceWebClient implements ItemService {
 	@Override
 	public Optional<Item> findAById(Long id) {
 		/* try { */
-		return Optional.ofNullable(webClientBuilder.build().get().uri("/{id}", id)
+		return Optional.ofNullable(webClient.get().uri("/{id}", id)
 				.retrieve()
 				.bodyToMono(Product.class)
 				.map(p -> new Item(p, new Random().nextInt(10) + 1))
@@ -84,7 +84,7 @@ public class ItemServiceWebClient implements ItemService {
 	 */
 	@Override
 	public Product save(Product product) {
-		return webClientBuilder.build().post()
+		return webClient.post()
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(product)
@@ -102,7 +102,7 @@ public class ItemServiceWebClient implements ItemService {
 	 */
 	@Override
 	public Product update(Product product, Long id) {
-		return webClientBuilder.build().put()
+		return webClient.put()
 				.uri("/{id}", id)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -119,7 +119,7 @@ public class ItemServiceWebClient implements ItemService {
 	 */
 	@Override
 	public void delete(Long id) {
-		webClientBuilder.build().delete().uri("/{id}", id).retrieve().bodyToMono(Void.class).block();
+		webClient.delete().uri("/{id}", id).retrieve().bodyToMono(Void.class).block();
 	}
 
 }

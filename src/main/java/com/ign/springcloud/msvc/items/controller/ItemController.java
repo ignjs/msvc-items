@@ -47,6 +47,7 @@ public class ItemController {
 	@GetMapping
 	public List<Item> list(@RequestParam(name = "name", required = false) String name,
 			@RequestHeader(name = "tokenRequest") String token) {
+				log.info("name: " + name + " token: " + token);
 		System.out.println("name: " + name + " token: " + token);
 		return service.findAll();
 	}
@@ -78,6 +79,7 @@ public class ItemController {
 
 				});
 		if (itemOptional.isPresent()) {
+			log.info("name: " + itemOptional.get().getProduct().getName() + " id: " + id.toString());
 			return ResponseEntity.ok(itemOptional.get());
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -174,6 +176,7 @@ public class ItemController {
 	 */
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody Product product) {
+		log.info("Create Product: " + product.getName());
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(product));
 	}
 
@@ -186,6 +189,7 @@ public class ItemController {
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody Product product, @PathVariable Long id) {
+		log.info("Update Product: " + product.getName());
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.update(product, id));
 	}
 
@@ -196,9 +200,10 @@ public class ItemController {
 	 * @return a ResponseEntity with no content status
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {		
 		Optional<Item> itemOptional = service.findAById(id);
 		if (itemOptional.isPresent()) {
+			log.info("Deleting Product: " + itemOptional.get().getProduct().getName());
 			service.delete(id);
 			return ResponseEntity.noContent().build();
 		}
