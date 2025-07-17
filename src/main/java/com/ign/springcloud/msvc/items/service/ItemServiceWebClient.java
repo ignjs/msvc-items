@@ -11,9 +11,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.ign.springcloud.msvc.items.model.Item;
 import com.ign.libs.msvc.commons.entity.Product;
 
-@Service
 //@Primary // This annotation is used to indicate that if there are multiple beans of the
-					// same type, the one with this annotation should be used.
+// same type, the one with this annotation should be used.
+@Service
 public class ItemServiceWebClient implements ItemService {
 
 	private final WebClient webClient;

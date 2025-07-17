@@ -38,7 +38,7 @@ public class ItemController {
 
 	// @Qualifier is used to specify which implementation of the ItemService
 	// interface
-	public ItemController(@Qualifier("itemServiceFeing") ItemService service,
+	public ItemController(@Qualifier("itemServiceWebClient") ItemService service,
 			CircuitBreakerFactory cBreakerFactory) {
 		this.cBreakerFactory = cBreakerFactory;
 		this.service = service;
